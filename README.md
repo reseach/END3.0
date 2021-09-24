@@ -55,7 +55,55 @@ While the gradient determines in which direction to move, the learning rate detr
 
 If the learning rate is too slow, the learning will be slow since it will take a long time to reach a region of hopefully a local minima, while a very large learning rate could result in overshooting the region of local minima. Thus learning rate is an empirical parameter set as part of what is called as hyperparameter tuning along with other neural network parameters. 
 
+![image](https://user-images.githubusercontent.com/91345062/134743221-6c1c8ed4-7e8c-41f7-a945-1d79a0b5c8a3.png)
      
 iii. How are weights initialized?
 
-Weight intialization is important aspect for efficient learning of the neural network.  
+Weight intialization is important aspect for efficient learning of the neural network. The way typical neural network traing occurs is 
+
+a. Inintialize the neural network parameters
+b. Decide on the optimization algorithm
+c. Do a Forward Pass of the Neural Network
+d. Compute gradient of the loss function wrt neural network weights using algorithm like back propogation
+e. update parameters using gradient descent
+
+Initilization is in face critical to neural network performance. If we initilize the neural networkwork with any constant weight, the network will not learn. THis is due to the effect of symmetry. For example assume we take two inputs x1 and x2 to the neural network and we initilize the weights using 'beta' for the hidden layer. Then each neuron of the hidden layer would have the same tanh(beta * x1 + beta * x2) as the output. So all the neurons of this hidden layer would have the same effect on the cost, and thus same gradient wrt to the loss function. So all neurons would behave symmetrically rather than learning different features. This would not allow the neural network to learn. Thus it is import to have random weights for initializing the neural network. 
+
+Secondly, if the outputs of the neuron are too large or small (or the network is deep) can lead to the problem of exploding or vanishing gradients respectively. A good weight initilization scheme allows to reduce the severity of exploding/vanishing gradient. 
+
+As a good heuristic it is recommended to initialize weights as random between -1 to 1 (variance of 1 or same across every layer) with mean as 0. Although, a good weigh initilization scheme does depends on the choice of the activation function. If the activation function is tanh it is recommended to initilize with Xavier initialization among others, while for activation function ReLU He initialization is recommended. 
+
+Xavier initialization :
+
+\begin{aligned}W^{[l]} &\sim \mathcal{N}(\mu=0,\sigma^2 = \frac{1}{n^{[l-1]}})\\ b^{[l]} &= 0\end{aligned} 
+W 
+[l]
+ 
+b 
+[l]
+ 
+​
+  
+∼N(μ=0,σ 
+2
+ = 
+n 
+[l−1]
+ 
+1
+​
+ )
+=0
+​
+ 
+In other words, all the weights of layer ll are picked randomly from a normal distribution with mean \mu = 0μ=0 and variance \sigma^2 = \frac{1}{n^{[l-1]}}σ 
+2
+ = 
+n 
+[l−1]
+ 
+1
+​
+  where n^{[l-1]}n 
+[l−1]
+  is the number of neuron in layer l-1l−1. Biases are initialized with zeros.
