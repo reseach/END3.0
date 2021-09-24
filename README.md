@@ -62,9 +62,13 @@ iii. How are weights initialized?
 Weight initialization is important aspect for efficient learning of the neural network. The way typical neural network training occurs is 
 
 a. Initialize the neural network parameters
+
 b. Decide on the optimization algorithm
+
 c. Do a Forward Pass of the Neural Network
+
 d. Compute gradient of the loss function wrt neural network weights using algorithm like back propagation
+
 e. update parameters using gradient descent
 
 Initilization is in face critical to neural network performance. If we initialize the neural network with any constant weight, the network will not learn. This is due to the effect of symmetry. For example assume we take two inputs x1 and x2 to the neural network and we initialize the weights using 'beta' for the hidden layer. Then each neuron of the hidden layer would have the same tanh(beta * x1 + beta * x2) as the output. So all the neurons of this hidden layer would have the same effect on the cost, and thus same gradient wrt to the loss function. So all neurons would behave symmetrically rather than learning different features. This would not allow the neural network to learn. Thus it is import to have random weights for initializing the neural network. 
@@ -82,15 +86,20 @@ iv. What is "loss" in a neural network?
 The difference between the predicted output of the neural network vs the ground truth/desired output is referred to as loss of a neural network. The higher the deviation of the ground truth the higher is the loss if the neural network. The loss of the neural network is non-convex. The loss function acts as the feedback for the optimization process to tune the weights of the neural network such that the loss of the network reduces. Thus, the loss of the neural network acts as the objective function which we want to minimize using an appropriate optimization method. For regression problems we generally have a regression loss like Mean Square Error (MSE), for discrete value/classification problems cross entropy loss/negative log likelihood loss is common, while for self-supervised learning usually contrastive loss is used. Also the loss function of the neural network depends on the problem being solved. For example, CTC loss is commonly used for speech processing while centre loss is common for biometric problems. Choice of loss function has a whole research area in neural network research commonly referred to as 'metric learning'.
 
 v. What is the "chain rule" in gradient flow?
+
 Generally following are the steps followed for a Neural Network training: 
 
 a. Initialize the neural network parameters
+
 b. Decide on the optimization algorithm
+
 c. Do a Forward Pass of the Neural Network
+
 d. Compute gradient of the loss function wrt neural network weights using algorithm like back propagation
+
 e. update parameters using gradient descent
 
-For the step d above, in order to fine tune the neural network weights to achieve a lower loss, we need to compute the gradient of the weights of the neural network wrt the loss function at the output neuron.  The computation of this gradient for the weights on the hidden neurons is computed using backpropagation. The gradient from the output node blows backward to the hidden nodes and is computed using the chain rule of calculus.
+For the step d above, in order to fine tune the neural network weights to achieve a lower loss, we need to compute the gradient of the weights of the neural network wrt the loss function at the output neuron.  The computation of this gradient for the weights on the hidden neurons is computed using backpropagation. The gradient from the output node flows backward to the hidden nodes and is computed using the chain rule of calculus. This is referred to as the "chain rule" in gradient flows. PyTorch has AutoGrad that takes care of such gradient flows/accumulation efficiently using a backward computational graph. An example of such  'chain rule' for gradient computation is as under: 
 
 ![image](https://user-images.githubusercontent.com/91345062/134747885-c42756b9-df39-46bd-9407-8af7817fcab3.png)
 
